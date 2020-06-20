@@ -23,13 +23,13 @@ public class Config {
 
     private Config(boolean useDefault) {
         if (useDefault) {
-            teamMap = createDefaultTeamMap();
+            teamCommands = createDefaultTeamMap();
         }
     }
 
     public short configVersion = 1;
 
-    public LinkedHashMap<String, List<String>> teamMap;
+    public LinkedHashMap<String, List<String>> teamCommands;
 
     public void save() {
         save(this);
@@ -43,6 +43,7 @@ public class Config {
             var config = GSON.fromJson(fr, Config.class);
             if (config.configVersion != DEFAULT.configVersion) {
                 file.delete();
+                save(config);
                 return load();
             }
             return config;

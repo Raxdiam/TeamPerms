@@ -34,7 +34,7 @@ public class TeamPerms implements ModInitializer {
 		COMMAND_MANAGER = minecraftServer.getCommandManager();
 		PLAYER_MANAGER = minecraftServer.getPlayerManager();
 		var rootNode = COMMAND_MANAGER.getDispatcher().getRoot();
-		CONFIG.teamMap.forEach((team, cmds) -> cmds.forEach(cmd -> {
+		CONFIG.teamCommands.forEach((team, cmds) -> cmds.forEach(cmd -> {
 			CommandNodeHelper.changeRequirement(rootNode, cmd, createTeamPredicate(team));
 		}));
 
@@ -43,14 +43,6 @@ public class TeamPerms implements ModInitializer {
 			return false;
 		};
 
-		// Didn't realize until now that you can't change the name of a team, so there's no need for this ¯\_(ツ)_/¯
-		/*ScoreboardCallbacks.TEAM_UPDATE.register(team -> {
-			var players = team.getPlayerList();
-			for (var playerName : players) {
-				safeSendCommandTree(playerName, PLAYER_MANAGER, COMMAND_MANAGER);
-			}
-			return false;
-		});*/
 		ScoreboardCallbacks.TEAM_JOIN.register(leaveJoinCallback);
 		ScoreboardCallbacks.TEAM_LEAVE.register(leaveJoinCallback);
 		ScoreboardCallbacks.TEAM_REMOVE_AFTER.register(team -> {
