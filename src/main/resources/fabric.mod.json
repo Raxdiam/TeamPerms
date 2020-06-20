@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "teamperms",
+  "version": "${version}",
+
+  "name": "TeamPerms",
+  "description": "A simple permissions mod using scoreboard teams as groups.",
+  "authors": [
+    "Raxdiam"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Raxdiam/TeamPerms",
+    "sources": "https://github.com/Raxdiam/TeamPerms"
+  },
+
+  "license": "GPL-3.0",
+  "icon": "assets/teamperms/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.raxdiam.teamperms.TeamPerms"
+    ]
+  },
+  "mixins": [
+    "teamperms.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}
