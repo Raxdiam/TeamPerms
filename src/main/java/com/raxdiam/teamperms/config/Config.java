@@ -2,16 +2,14 @@ package com.raxdiam.teamperms.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.raxdiam.teamperms.util.TeamMap;
 import com.raxdiam.teamperms.TeamPerms;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Config {
     private static final String CONFIG_PATH = "config/" + TeamPerms.MOD_NAME + ".json";
@@ -29,7 +27,7 @@ public class Config {
 
     public short configVersion = 1;
 
-    public LinkedHashMap<String, List<String>> teamCommands;
+    public TeamMap teamCommands;
 
     public void save() {
         save(this);
@@ -68,8 +66,8 @@ public class Config {
         }
     }
 
-    private static LinkedHashMap<String, List<String>> createDefaultTeamMap() {
-        var map = new LinkedHashMap<String, List<String>>();
+    private static TeamMap createDefaultTeamMap() {
+        var map = new TeamMap();
         map.put("Admin", List.of(
                 "advancement",
                 "attribute",

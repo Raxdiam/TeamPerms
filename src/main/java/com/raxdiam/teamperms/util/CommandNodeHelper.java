@@ -3,7 +3,7 @@
 * https://github.com/vacla/Watson
 */
 
-package com.raxdiam.teamperms;
+package com.raxdiam.teamperms.util;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -40,11 +40,15 @@ public class CommandNodeHelper
     public static void changeRequirement(CommandNode<?> node, String command, Predicate<?> predicate) {
         var child = node.getChild(command);
         if (child != null) {
-            try {
-                REQUIREMENT.set(child, predicate);
-            } catch (ReflectiveOperationException e) {
-                throw new RuntimeException("Error changing requirement for command: " + command, e);
-            }
+            changeRequirement(child, predicate);
+        }
+    }
+
+    public static void changeRequirement(CommandNode<?> node, Predicate<?> predicate) {
+        try {
+            REQUIREMENT.set(node, predicate);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException("Error changing requirement for command: " + node.getName(), e);
         }
     }
 
