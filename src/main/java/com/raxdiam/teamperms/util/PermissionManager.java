@@ -2,6 +2,8 @@ package com.raxdiam.teamperms.util;
 
 import com.mojang.brigadier.tree.RootCommandNode;
 import com.raxdiam.teamperms.TeamPerms;
+import com.raxdiam.teamperms.events.ScoreboardCallbacks;
+import com.raxdiam.teamperms.events.TeamPlayerCallback;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.command.CommandManager;
@@ -34,11 +36,6 @@ public class PermissionManager {
 
         createPermTeams(teamMap);
         createCommands();
-
-        for (var team : permTeams) {
-            LOGGER.info("Team: " + team.name + ", Level: " + team.level);
-        }
-
     }
 
     public void apply() {
@@ -48,6 +45,21 @@ public class PermissionManager {
 
             CommandNodeHelper.changeRequirement(node, perm.getRequirement());
         }
+
+        var leaveJoinCallback = (TeamPlayerCallback) (playerName, team) -> {
+            safeSendCommandTree(playerName, playerManager, commandManager);
+            return false;
+        };
+
+        ScoreboardCallbacks.TEAM_JOIN.register(leaveJoinCallback);
+        ScoreboardCallbacks.TEAM_LEAVE.register(leaveJoinCallback);
+        ScoreboardCallbacks.TEAM_REMOVE_AFTER.register(team -> {
+            var players = team.getPlayerList();
+            for (var playerName : players) {
+                safeSendCommandTree(playerName, playerManager, commandManager);
+            }
+            return false;
+        });
     }
 
     public PermissionTeam getPermTeam(String name) {
@@ -70,5 +82,10 @@ public class PermissionManager {
                 commands.put(command.getName(), command);
             }
         }
+    }
+
+    private static void safeSendCommandTree(String playerName, PlayerManager playerManager, CommandManager commandManager) {
+        var player = playerManager.getPlayer(playerName);
+        if (player != null) commandManager.sendCommandTree(player);
     }
 }
