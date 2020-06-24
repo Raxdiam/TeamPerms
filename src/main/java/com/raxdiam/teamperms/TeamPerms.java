@@ -1,5 +1,6 @@
 package com.raxdiam.teamperms;
 
+import com.mojang.brigadier.tree.CommandNode;
 import com.raxdiam.teamperms.config.Config;
 import com.raxdiam.teamperms.util.PermissionManager;
 import net.fabricmc.api.ModInitializer;
