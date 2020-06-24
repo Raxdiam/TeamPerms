@@ -58,10 +58,12 @@ public class PermissionCommand {
                 if (player == null) return false;
 
                 var team = player.getScoreboardTeam();
-                var permTeam = manager.getPermTeam(team.getName());
-                var level = team == null || permTeam == null ? PermissionManager.MAX_PERM_LEVEL : permTeam.level;
+                if (team == null) return PermissionManager.MAX_PERM_LEVEL <= this.level;
 
-                return level <= this.level;
+                var permTeam = manager.getPermTeam(team.getName());
+                if (permTeam == null) return PermissionManager.MAX_PERM_LEVEL <= this.level;
+
+                return permTeam.level <= this.level;
             }
             return false;
         };
