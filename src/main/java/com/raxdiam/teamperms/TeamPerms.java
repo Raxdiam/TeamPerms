@@ -1,10 +1,9 @@
 package com.raxdiam.teamperms;
 
-import com.mojang.brigadier.tree.CommandNode;
 import com.raxdiam.teamperms.config.Config;
 import com.raxdiam.teamperms.util.PermissionManager;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.server.ServerStartCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +18,7 @@ public class TeamPerms implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ServerStartCallback.EVENT.register(minecraftServer -> onServerStart(minecraftServer));
+		ServerLifecycleEvents.SERVER_STARTED.register(this::onServerStart);
 	}
 
 	private void onServerStart(MinecraftServer minecraftServer) {

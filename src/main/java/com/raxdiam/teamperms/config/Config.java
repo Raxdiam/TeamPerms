@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class Config {
@@ -34,11 +35,11 @@ public class Config {
     }
 
     public static Config load() {
-        var file = new File(CONFIG_PATH);
+        File file = new File(CONFIG_PATH);
         if (!file.exists()) save(DEFAULT);
 
-        try (var fr = new FileReader(CONFIG_PATH)) {
-            var config = GSON.fromJson(fr, Config.class);
+        try (FileReader fr = new FileReader(CONFIG_PATH)) {
+            Config config = GSON.fromJson(fr, Config.class);
             if (config.configVersion != DEFAULT.configVersion) {
                 file.delete();
                 save(config);
@@ -53,13 +54,13 @@ public class Config {
 
     private static void save(Config config) {
         try {
-            var file = new File(CONFIG_PATH);
+            File file = new File(CONFIG_PATH);
             if (!file.exists()) file.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        try (var fw = new FileWriter(CONFIG_PATH)) {
+        try (FileWriter fw = new FileWriter(CONFIG_PATH)) {
             fw.write(GSON.toJson(config));
         } catch (IOException e) {
             e.printStackTrace();
@@ -67,8 +68,8 @@ public class Config {
     }
 
     private static TeamMap createDefaultTeamMap() {
-        var map = new TeamMap();
-        map.put("Admin", List.of(
+        TeamMap map = new TeamMap();
+        map.put("Admin", Arrays.asList(
                 "advancement",
                 "attribute",
                 "ban-ip",
@@ -122,7 +123,7 @@ public class Config {
                 "worldborder",
                 "xp"
         ));
-        map.put("Moderator", List.of(
+        map.put("Moderator", Arrays.asList(
                 "banlist",
                 "ban",
                 "effect",
@@ -137,7 +138,7 @@ public class Config {
                 "tp",
                 "whitelist"
         ));
-        map.put("Default", List.of(
+        map.put("Default", Arrays.asList(
                 "help",
                 "me",
                 "msg",

@@ -2,7 +2,7 @@ package com.raxdiam.teamperms.util;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.raxdiam.teamperms.TeamPerms;
-import net.minecraft.server.command.CommandSource;
+import net.minecraft.scoreboard.AbstractTeam;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.apache.logging.log4j.LogManager;
@@ -45,9 +45,9 @@ public class PermissionCommand {
 
     private Predicate<?> createRequirement() {
         return o -> {
-            if (((CommandSource) o).hasPermissionLevel(4)) return true;
+            if (((ServerCommandSource) o).hasPermissionLevel(4)) return true;
             if (o instanceof ServerCommandSource) {
-                var s = (ServerCommandSource) o;
+                ServerCommandSource s = (ServerCommandSource) o;
 
                 ServerPlayerEntity player;
                 try {
@@ -57,10 +57,10 @@ public class PermissionCommand {
                 }
                 if (player == null) return false;
 
-                var team = player.getScoreboardTeam();
+                AbstractTeam team = player.getScoreboardTeam();
                 if (team == null) return PermissionManager.MAX_PERM_LEVEL <= this.level;
 
-                var permTeam = manager.getPermTeam(team.getName());
+                PermissionTeam permTeam = manager.getPermTeam(team.getName());
                 if (permTeam == null) return PermissionManager.MAX_PERM_LEVEL <= this.level;
 
                 return permTeam.level <= this.level;

@@ -13,7 +13,7 @@ public class PermissionTeam {
         this.level = level;
         //this.commands = commands;
         this.commands = new ArrayList<>();
-        for (var command : commands) {
+        for (String command : commands) {
             this.commands.add(new PermissionCommand(manager, this, command, level));
         }
     }

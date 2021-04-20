@@ -29,14 +29,14 @@ public class TeamMap extends LinkedHashMap<String, List<String>> {
 
     @Override
     public List<String> put(String key, List<String> value) {
-        var newKey = key.toLowerCase();
+        String newKey = key.toLowerCase();
         if (!super.containsKey(newKey)) indicies.add(newKey);
         return super.put(newKey, value);
     }
 
     @Override
     public List<String> remove(Object key) {
-        var newKey = ((String) key).toLowerCase();
+        String newKey = ((String) key).toLowerCase();
         indicies.remove(newKey);
         return super.remove(newKey);
     }

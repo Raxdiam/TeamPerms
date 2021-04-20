@@ -38,7 +38,7 @@ public class CommandNodeHelper
     }
 
     public static void changeRequirement(CommandNode<?> node, String command, Predicate<?> predicate) {
-        var child = node.getChild(command);
+        CommandNode<?> child = node.getChild(command);
         if (child != null) {
             changeRequirement(child, predicate);
         }

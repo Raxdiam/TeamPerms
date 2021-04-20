@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.raxdiam.teamperms.mixin",
-  "compatibilityLevel": "JAVA_14",
+  "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "server": [
